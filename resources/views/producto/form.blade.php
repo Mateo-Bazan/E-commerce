@@ -33,7 +33,8 @@
         </div>
         <div class="form-group mt-2 mb-2">
             {{ Form::label('foto') }} <br>
-            {{ Form::file('foto', $producto->foto, ['class' => 'form-control' . ($errors->has('foto') ? ' is-invalid' : ''), 'placeholder' => 'Foto']) }}
+            {{ Form::file('foto', $producto->foto, ['class' => 'form-control' . 
+                ($errors->has('foto') ? ' is-invalid' : ''), 'placeholder' => 'Foto']) }}
             {!! $errors->first('foto', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <!--<div class="form-group">
