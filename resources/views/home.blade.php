@@ -30,7 +30,7 @@
 <div class="container-fluid">
     <div class="container-lg">
         <div class="row justify-content-center"> 
-            @foreach ($productos as $producto)
+            @foreach ($productos as $producto) 
             <div class="card col-3 m-4">
                 <div class="card-body">
                     <img src="{{ asset('img/img-productos/' . $producto['foto']) }}" class="card-img-top rounded">
@@ -38,7 +38,23 @@
                 <div class="card-body">
                     <h4 class="card-title justify-content-end">{{ $producto["producto"] }}</h4>
                     <p class="card-text">${{ $producto["precio_venta"] }}</p>
-                    <a href="#" class="btn btn-primary">Añadir al carrito</a>
+
+                    <form action="{{ route('cart.store') }}" method="POST">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" value="{{ $producto['id'] }}" id="id" name="id">
+                                        <input type="hidden" value="{{ $producto['rubro'] }}" id="rubro" name="rubro">
+                                        <input type="hidden" value="{{ $producto['precio_venta'] }}" id="precio_venta" name="precio_venta">
+                                        <input type="hidden" value="{{ $producto['foto'] }}" id="foto" name="foto">
+                                        <input type="hidden" value="{{ $producto['producto'] }}" id="producto" name="producto">
+                                        <input type="hidden" value="1" id="quantity" name="quantity">
+                                        <div class="card-footer" style="background-color: white;">
+                                            <div class="row">
+                                                <button class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
+                                                    <i class="fa fa-shopping-cart"></i> agregar al carrito
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
                 </div>
             </div>
             @endforeach

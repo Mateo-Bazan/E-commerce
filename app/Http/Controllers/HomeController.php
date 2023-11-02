@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //$productos =: DB:select("SELECT * from productos");
+        //$productos = DB::select("SELECT * from productos");
         $productos = Producto::get();
         //dd($productos);
         return view('home', ['productos' => $productos->toArray()]);
