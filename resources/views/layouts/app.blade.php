@@ -89,11 +89,11 @@
             </div>
         </nav>
 
-        <main>
+        <main class="mb-5">
             @yield('content')
         </main>
 
-        <footer class="mt-5 p-4 bg-secondary">
+        <footer class="p-4 bg-secondary" style="margin-top: 20%;">
             <div class="container">
                 <div class="row aling-items-start">
                     <div class="col-3">

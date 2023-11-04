@@ -52,32 +52,78 @@ class CarritoController extends Controller
     }
 
     public function update(Request $request){
-        $id = $request["id"];
-        $validacion_stock = DB::select("SELECT stock from productos WHERE productos.id = $id")[0]->stock;
+        if($request["mas"] == TRUE){
 
-        //dd($validacion_stock);
-        if($validacion_stock >= $request["quantity"]){
-            \Cart::update($request->id,
-            array(
-                'quantity' => array(
-                    'relative' => false,
-                    'value' => $request->quantity
-                ),
-        ));
-        return redirect()->route('cart.index')->with('success_msg', 'Cart is Updated!');
-        }
+            $quantity = $request["quantity"];
+            $quantity += 1;
+
+            $id = $request["id"];
+            $validacion_stock = DB::select("SELECT stock from productos WHERE productos.id = $id")[0]->stock;
+
+            //dd($validacion_stock);
+            if($quantity == 0){
+                \Cart::remove($request["id"]);
+                return redirect()->route('cart.index')->with('success_msg', 'Item is removed!');
+            }
+            elseif($validacion_stock >= $quantity){
+                \Cart::update($request->id,
+                array(
+                    'quantity' => array(
+                        'relative' => false,
+                        'value' => $quantity
+                    ),
+            ));
+            return redirect()->route('cart.index')->with('success_msg', 'Cart is Updated!');
+            }
+            else{
+                \Cart::update($request->id,
+                array(
+                    'quantity' => array(
+                        'relative' => false,
+                        'value' => $validacion_stock
+                    ),
+                ));
+                return redirect()->route('cart.index')->with('alert_msg', 'No Hay Sufciente Stock! El máximo es '.$validacion_stock);
+            }
+    }
         else{
-            return redirect()->route('cart.index')->with('alert_msg', 'No Hay Stock!');
+            $quantity = $request["quantity"];
+            $quantity -= 1;
+            $id = $request["id"];
+            $validacion_stock = DB::select("SELECT stock from productos WHERE productos.id = $id")[0]->stock;
+
+            //dd($validacion_stock);
+            if($quantity == 0){
+                \Cart::remove($request["id"]);
+                return redirect()->route('cart.index')->with('success_msg', 'Item is removed!');
+            }
+            elseif($validacion_stock >= $quantity){
+                \Cart::update($request->id,
+                array(
+                    'quantity' => array(
+                        'relative' => false,
+                        'value' => $quantity
+                    ),
+            ));
+            return redirect()->route('cart.index')->with('success_msg', 'Cart is Updated!');
+            }
+            else{
+                \Cart::update($request->id,
+                array(
+                    'quantity' => array(
+                        'relative' => false,
+                        'value' => $validacion_stock
+                    ),
+                ));
+                return redirect()->route('cart.index')->with('alert_msg', 'No Hay Sufciente Stock! El máximo es '.$validacion_stock);
+            }
         }
-        
     }
 
     public function clear(){
         \Cart::clear();
         return redirect()->route('cart.index')->with('success_msg', 'Car is cleared!');
     }
-
- 
 
 }
 
