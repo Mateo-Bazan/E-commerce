@@ -4,8 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use App\Models\User;
+
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\DB;
+
+use LaravelDaily\Invoices\Invoice;
+use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 class CarritoController extends Controller
 {
@@ -121,8 +128,33 @@ class CarritoController extends Controller
     }
 
     public function clear(){
+        //$admin = DB::select('SELECT * from users where id_rol = 1');
+        //dd($admin[0]->name);
+        
         \Cart::clear();
         return redirect()->route('cart.index')->with('success_msg', 'Car is cleared!');
+    }
+
+
+    public function generarFactura(){
+        $admin = DB::select('SELECT * from users where id_rol = 1');
+        $customer = new Buyer([
+            'name'          => $admin[0]->name,
+            'custom_fields' => [
+                'email' => 'test@example.com',
+            ],
+        ]);
+
+        $item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2);
+
+        $invoice = Invoice::make()
+            ->buyer($customer)
+            ->discountByPercent(10)
+            ->taxRate(15)
+            ->shipping(1.99)
+            ->addItem($item);
+
+        return $invoice->stream();
     }
 
 }

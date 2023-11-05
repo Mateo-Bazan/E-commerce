@@ -130,7 +130,7 @@
                         </ul>
                     </div>
                     <br><a href="{{ url('/home') }}" class="btn btn-dark">Continue en la tienda</a>
-                    <a href="/checkout" class="btn btn-success">Proceder al Checkout</a>
+                    <a href="{{ url('cart/{$order}/generarFactura') }}" class="btn btn-success">Proceder al Checkout</a>
 
                     <style>
                             .mi-boton {

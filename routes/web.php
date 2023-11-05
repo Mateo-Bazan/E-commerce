@@ -33,3 +33,5 @@ Route::post('/update', [CarritoController::class, 'update'])->name('cart.update'
 Route::post('/remove', [CarritoController::class, 'remove'])->name('cart.remove');
 Route::post('/clear', [CarritoController::class, 'clear'])->name('cart.clear');
 
+
+Route::get('/cart/{$order}/generarFactura', [CarritoController::class, 'generarFactura'])->name('cart.generarFactura');
