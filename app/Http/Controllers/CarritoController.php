@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\User;
+use App\Models\Categoria;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -128,9 +129,6 @@ class CarritoController extends Controller
     }
 
     public function clear(){
-        //$admin = DB::select('SELECT * from users where id_rol = 1');
-        //dd($admin[0]->name);
-        
         \Cart::clear();
         return redirect()->route('cart.index')->with('success_msg', 'Car is cleared!');
     }
@@ -138,21 +136,50 @@ class CarritoController extends Controller
 
     public function generarFactura(){
         $admin = DB::select('SELECT * from users where id_rol = 1');
-        $customer = new Buyer([
-            'name'          => $admin[0]->name,
+        $user = Auth::user();
+        $cartCollection = \Cart::getContent();
+        //dd($cartCollection);
+
+        $userAfip = DB::select('SELECT tipo_inscripcion from categorias where id ='. $user->id_afip);
+        //dd($userAfip[0]->tipo_inscripcion);
+        $seller = new Buyer([
+            'name'          => $admin[0]->razon_social,
             'custom_fields' => [
-                'email' => 'test@example.com',
+                'Domicilio' => $user->domicilio,
+                'CUIT' => $user->cuit,
+                'Email' => $admin[0]->email,
+                'Telefono' => $admin[0]->telefono,
+                'Ingresos Brutos' => $user->cod_iibb,
+                'condición frente al IVA'        => $userAfip[0]->tipo_inscripcion,
+                'Inicio de Actividades' => $user->inicio_actividad,
             ],
         ]);
 
-        $item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2);
+        $customer = new Buyer([
+            'name'          => $user->razon_social,
+            'custom_fields' => [
+                'Domicilio' => $user->domicilio,
+                'CUIT' => $user->cuit,
+                'condición frente al IVA' => $userAfip[0]->tipo_inscripcion,
+            ],
+        ]);
+
+        foreach ($cartCollection as $producto){
+            $items[] = (new InvoiceItem())->title($producto['attributes']['slug'])
+            ->pricePerUnit($producto->price)
+            ->quantity($producto->quantity)
+            ;
+        }
+        
 
         $invoice = Invoice::make()
             ->buyer($customer)
-            ->discountByPercent(10)
-            ->taxRate(15)
-            ->shipping(1.99)
-            ->addItem($item);
+            ->seller($seller)
+            ->logo('/img/lambo.jpg')
+            ->currencySymbol('$')
+            ->currencyCode('ARS')
+            ->taxRate(21)
+            ->addItems($items);
 
         return $invoice->stream();
     }
