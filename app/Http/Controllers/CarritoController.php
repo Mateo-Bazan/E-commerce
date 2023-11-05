@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
-use App\Models\User;
 use App\Models\Categoria;
-
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\DB;
@@ -134,7 +134,7 @@ class CarritoController extends Controller
     }
 
 
-    public function generarFactura(){
+    public function generarFactura(Request $request){
         $admin = DB::select('SELECT * from users where id_rol = 1');
         $user = Auth::user();
         $cartCollection = \Cart::getContent();
@@ -169,19 +169,31 @@ class CarritoController extends Controller
             ->pricePerUnit($producto->price)
             ->quantity($producto->quantity)
             ;
+            $stock_antiguo = DB::select('SELECT stock from productos where id ='. $producto->id);
+            $nuevo_stock = $stock_antiguo[0]->stock -= $producto->quantity;
+            $actualizar_stock = DB::table('productos')->where('id', $producto->id)->update(['stock' => $nuevo_stock]);
         }
         
+        if($request['conEnvio'] == "false"){
+            $envio = 0;
+        }
+        else{
+            $envio = \Cart::getTotal();
+            $envio = $envio * 0.1;
+        }
 
         $invoice = Invoice::make()
             ->buyer($customer)
             ->seller($seller)
-            ->logo('/img/lambo.jpg')
             ->currencySymbol('$')
             ->currencyCode('ARS')
-            ->taxRate(21)
+            ->shipping($envio)
+            ->logo(public_path('img\vendor\invoices\sample-logo.png'))
             ->addItems($items);
 
-        return $invoice->stream();
+        \Cart::clear();
+        return $invoice->download();
+        
     }
 
 }

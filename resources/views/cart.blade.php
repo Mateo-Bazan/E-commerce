@@ -98,6 +98,7 @@
                 @endif
             </div>
             @if(count($cartCollection)>0)
+            
                 <div class="col-lg-5">
                     
                     <div class="d-flex">
@@ -129,9 +130,11 @@
                             </li>
                         </ul>
                     </div>
-                    <br><a href="{{ url('/home') }}" class="btn btn-dark">Continue en la tienda</a>
-                    <a href="{{ url('cart/{$order}/generarFactura') }}" class="btn btn-success">Proceder al Checkout</a>
-
+                    <div class="row m-1 mt-3">
+                    <br><a href="{{ url('/home') }}" class="btn btn-dark col-6">Continue en la tienda</a>
+                    <a id="pedido-con-envio" href="{{ route('cart.generarFactura', 'conEnvio= true') }}" class="btn btn-success col-6">Proceder al Checkout</a>
+                    <a id="pedido-sin-envio" href="{{ route('cart.generarFactura', 'conEnvio= false') }}" class="btn btn-success col-6">Proceder al Checkout</a>
+                    </div>
                     <style>
                             .mi-boton {
                                 transition: background-color 0.3s, color 0.3s;
@@ -141,6 +144,18 @@
                                 }
                             .mi-boton:hover{
                                 background-color: #000000;
+                            }
+                            #pedido-sin-envio{
+                                display:block;
+                            }
+                            #pedido-con-envio{
+                                display:none;
+                            }
+                            #pedido-sin-envio.noMostrar{
+                                display:none;
+                            }
+                            #pedido-con-envio.mostrar{
+                                display:block;
                             }
                             #envio-si{
                                 display:none;
@@ -175,6 +190,8 @@
                         document.getElementById('envio-si').classList.toggle('noMostrar');
                         document.getElementById('total-sin-envio').classList.toggle('noMostrar');
                         document.getElementById('total-con-envio').classList.toggle('mostrar');
+                        document.getElementById('pedido-sin-envio').classList.toggle('noMostrar');
+                        document.getElementById('pedido-con-envio').classList.toggle('mostrar');
                         });
                         </script>
                 </div>

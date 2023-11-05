@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarritoController;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,4 +35,5 @@ Route::post('/remove', [CarritoController::class, 'remove'])->name('cart.remove'
 Route::post('/clear', [CarritoController::class, 'clear'])->name('cart.clear');
 
 
-Route::get('/cart/{$order}/generarFactura', [CarritoController::class, 'generarFactura'])->name('cart.generarFactura');
+Route::get('cart/generarFactura', [CarritoController::class, 'generarFactura'])->name('cart.generarFactura');
+

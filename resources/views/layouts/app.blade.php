@@ -138,8 +138,8 @@
                     <div class="col-3" style="">
                         <h3>Otros Proyectos</h3>
                         <div class="card-body list-unstyled">
-                            <li class="nav-item"><a href="#" class="nav-link">Sistema de Gestión</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link">Geolocalización</a></li>
+                            <li class="nav-item"><a href="https://github.com/Mateo-Bazan/INET_web_app" class="nav-link">Sistema de localización INET</a></li>
+                            <li class="nav-item"><a href="https://github.com/Mateo-Bazan/OSM-api" class="nav-link">Geolocalización</a></li>
                         </div>
                     </div>
                 </div>
