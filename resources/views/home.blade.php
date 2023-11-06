@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div id="carouselExampleControls" class="carousel slide mt-0" data-bs-ride="carousel">
+<!--<div id="carouselExampleControls" class="carousel slide mt-0" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                     <img src="{{ asset('/img/lambo.jpg')}}" class="d-block w-100" alt="...">
@@ -26,14 +26,14 @@
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
-</div>
+</div>-->
 <div class="container-fluid">
     <div class="container-lg">
         <div class="row justify-content-center"> 
             @foreach ($productos as $producto) 
             <div class="card col-3 m-4">
                 <div class="card-body">
-                    <img src="{{ asset('img/img-productos/' . $producto['foto']) }}" class="card-img-top rounded">
+                    <img src="{{ asset('img/img-productos/' . $producto['foto']) }}" class="card-img-top rounded" style="width: 100%; height: 100%;">
                 </div>
                 <div class="card-body">
                     <h4 class="card-title justify-content-end">{{ $producto["producto"] }}</h4>

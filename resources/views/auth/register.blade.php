@@ -141,22 +141,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="id_rol" class="col-md-4 col-form-label text-md-end">{{ __('id_rol') }}</label>
-
-                            <div class="col-md-6">
-                            <select class="form-control{{ $errors->has('id_rol') ? ' is-invalid' : '' }}" name="id_rol" id="id_rol" required="true" aria-required="true" placehorder="">
-                                <option value="">{{ __('') }}</option>
-                                <option value="{{ 1 }}">{{ __('ADMIN') }}</option>
-                                <option value="{{ 2 }}">{{ __('user') }}</option>
-                            </select>
-                                @error('id_rol')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        
                         <!-- CAMPOS AGREGADOS-->
 
                         <div class="row mb-3">

@@ -60,7 +60,7 @@ class RegisterController extends Controller
             'cuit' => ['required', 'string', 'max:255'],
             'cod_iibb' => ['required', 'string', 'max:255'],
             'inicio_actividad' => ['required', 'date', 'max:255'],
-            'id_rol' => ['required', 'string', 'max:255'],
+            'id_rol' => [ 'string', 'max:255'],
 
         ]);
     }
@@ -83,7 +83,7 @@ class RegisterController extends Controller
             'cuit' => $data['cuit'],
             'cod_iibb' => $data['cod_iibb'],
             'inicio_actividad' => $data['inicio_actividad'],
-            'id_rol' => $data['id_rol'],
+            'id_rol' => "2",
             'password' => Hash::make($data['password']),
         ]);
     }

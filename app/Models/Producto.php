@@ -34,7 +34,7 @@ class Producto extends Model
 		'producto' => 'required',
 		'marca' => 'required',
 		'stock' => 'required',
-		'foto' => 'required|image|mimes:jpeg,png,jpg',
+		'foto' => '|image|mimes:jpeg,png,jpg',
 		'precio_costo' => 'required',
 		'iva' => 'nullable',
 		'ibb' => 'nullable',

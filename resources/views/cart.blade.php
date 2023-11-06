@@ -41,7 +41,7 @@
                     <h4>{{ \Cart::getTotalQuantity()}} Producto(s) en el carrito</h4><br>
                 @else
                     <h4>No Product(s) In Your Cart</h4><br>
-                    <a href="{{ url('/home') }}" class="btn btn-dark">Continue en la tienda</a>
+                    <a href="{{ url('/home') }}" class="btn btn-dark">Seguir comprando!</a>
                 @endif
 
                 @foreach($cartCollection as $item)
@@ -131,7 +131,7 @@
                         </ul>
                     </div>
                     <div class="row m-1 mt-3">
-                    <br><a href="{{ url('/home') }}" class="btn btn-dark col-6">Continue en la tienda</a>
+                    <br><a href="{{ url('/home') }}" class="btn btn-dark col-6">Seguir comprando!</a>
                     <a id="pedido-con-envio" href="{{ route('cart.generarFactura', 'conEnvio= true') }}" class="btn btn-success col-6">Proceder al Checkout</a>
                     <a id="pedido-sin-envio" href="{{ route('cart.generarFactura', 'conEnvio= false') }}" class="btn btn-success col-6">Proceder al Checkout</a>
                     </div>

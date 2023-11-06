@@ -145,10 +145,6 @@ class ProductoController extends Controller
     public function update(Request $request, Producto $producto)
     {
         request()->validate(Producto::$rules);
-
-        if($request->hasFile('foto')){
-            $request["foto"] = $request->file('foto')->store('img_productos','public');
-        }
         //calcular iva
         $iva = $request["precio_costo"];
         $iva = $iva * 0.21 + $iva;
